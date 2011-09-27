@@ -1,0 +1,234 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B071544143179F800B39BEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B071543143179F800B39BEC /* Foundation.framework */; };
+		0B071547143179F800B39BEC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B071546143179F800B39BEC /* main.m */; };
+		0B07154B143179F800B39BEC /* pdfannotations.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0B07154A143179F800B39BEC /* pdfannotations.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0B07153D143179F800B39BEC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				0B07154B143179F800B39BEC /* pdfannotations.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0B07153F143179F800B39BEC /* pdfannotations */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pdfannotations; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B071543143179F800B39BEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0B071546143179F800B39BEC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0B071549143179F800B39BEC /* pdfannotations-Prefix.pch */ = {isa = PBXFileReference; path = "pdfannotations-Prefix.pch"; sourceTree = "<group>"; };
+		0B07154A143179F800B39BEC /* pdfannotations.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = pdfannotations.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0B07153C143179F800B39BEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B071544143179F800B39BEC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0B071534143179F700B39BEC = {
+			isa = PBXGroup;
+			children = (
+				0B071545143179F800B39BEC /* pdfannotations */,
+				0B071542143179F800B39BEC /* Frameworks */,
+				0B071540143179F800B39BEC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0B071540143179F800B39BEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0B07153F143179F800B39BEC /* pdfannotations */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0B071542143179F800B39BEC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0B071543143179F800B39BEC /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0B071545143179F800B39BEC /* pdfannotations */ = {
+			isa = PBXGroup;
+			children = (
+				0B071546143179F800B39BEC /* main.m */,
+				0B07154A143179F800B39BEC /* pdfannotations.1 */,
+				0B071548143179F800B39BEC /* Supporting Files */,
+			);
+			path = pdfannotations;
+			sourceTree = "<group>";
+		};
+		0B071548143179F800B39BEC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0B071549143179F800B39BEC /* pdfannotations-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0B07153E143179F800B39BEC /* pdfannotations */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B07154E143179F800B39BEC /* Build configuration list for PBXNativeTarget "pdfannotations" */;
+			buildPhases = (
+				0B07153B143179F800B39BEC /* Sources */,
+				0B07153C143179F800B39BEC /* Frameworks */,
+				0B07153D143179F800B39BEC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pdfannotations;
+			productName = pdfannotations;
+			productReference = 0B07153F143179F800B39BEC /* pdfannotations */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0B071536143179F700B39BEC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "technophobe-anodyne";
+			};
+			buildConfigurationList = 0B071539143179F700B39BEC /* Build configuration list for PBXProject "pdfannotations" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0B071534143179F700B39BEC;
+			productRefGroup = 0B071540143179F800B39BEC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0B07153E143179F800B39BEC /* pdfannotations */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0B07153B143179F800B39BEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B071547143179F800B39BEC /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0B07154C143179F800B39BEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		0B07154D143179F800B39BEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		0B07154F143179F800B39BEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "pdfannotations/pdfannotations-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0B071550143179F800B39BEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "pdfannotations/pdfannotations-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0B071539143179F700B39BEC /* Build configuration list for PBXProject "pdfannotations" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B07154C143179F800B39BEC /* Debug */,
+				0B07154D143179F800B39BEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0B07154E143179F800B39BEC /* Build configuration list for PBXNativeTarget "pdfannotations" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B07154F143179F800B39BEC /* Debug */,
+				0B071550143179F800B39BEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0B071536143179F700B39BEC /* Project object */;
+}

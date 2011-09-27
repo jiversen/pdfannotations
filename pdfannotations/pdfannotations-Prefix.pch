@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'pdfannotations' target in the 'pdfannotations' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
