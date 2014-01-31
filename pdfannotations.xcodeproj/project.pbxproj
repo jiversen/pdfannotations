@@ -10,6 +10,7 @@
 		0B071544143179F800B39BEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B071543143179F800B39BEC /* Foundation.framework */; };
 		0B071547143179F800B39BEC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B071546143179F800B39BEC /* main.m */; };
 		0B07154B143179F800B39BEC /* pdfannotations.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0B07154A143179F800B39BEC /* pdfannotations.1 */; };
+		0B071552143196FF00B39BEC /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B071551143196FF00B39BEC /* Quartz.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,8 +30,9 @@
 		0B07153F143179F800B39BEC /* pdfannotations */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pdfannotations; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B071543143179F800B39BEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0B071546143179F800B39BEC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0B071549143179F800B39BEC /* pdfannotations-Prefix.pch */ = {isa = PBXFileReference; path = "pdfannotations-Prefix.pch"; sourceTree = "<group>"; };
+		0B071549143179F800B39BEC /* pdfannotations-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "pdfannotations-Prefix.pch"; sourceTree = "<group>"; };
 		0B07154A143179F800B39BEC /* pdfannotations.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = pdfannotations.1; sourceTree = "<group>"; };
+		0B071551143196FF00B39BEC /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = ../../../../../../System/Library/Frameworks/Quartz.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +41,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B071544143179F800B39BEC /* Foundation.framework in Frameworks */,
+				0B071552143196FF00B39BEC /* Quartz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +68,7 @@
 		0B071542143179F800B39BEC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0B071551143196FF00B39BEC /* Quartz.framework */,
 				0B071543143179F800B39BEC /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -114,6 +118,7 @@
 		0B071536143179F700B39BEC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "technophobe-anodyne";
 			};
 			buildConfigurationList = 0B071539143179F700B39BEC /* Build configuration list for PBXProject "pdfannotations" */;
@@ -202,6 +207,7 @@
 		0B071550143179F800B39BEC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "~/bin";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pdfannotations/pdfannotations-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -227,6 +233,7 @@
 				0B071550143179F800B39BEC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
