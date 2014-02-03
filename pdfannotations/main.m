@@ -33,9 +33,9 @@ int main (int argc, const char * argv[])
     
 
     if (argc < 2) {
-        //fname = @"/Users/Shared/dev/Projects/annotations/hilighttest.pdf";
+        fname = @"/Users/Shared/dev/Projects/annotations/hilighttest.pdf";
         fname = @"/Users/Shared/dev/Projects/annotations/Zarco.pdf";
-        fname = @"/Users/jri/Google\ Drive/Papers2/Articles/Y/Yoon/Yoon\ 2006\ -\ Using\ the\ brain\ P300\ response\ to\ identify\ novel\ phenotypes\ reflecting\ genetic\ vulnerability\ for\ adolescent\ substance\ misuse.\ -\ Addict\ Behav.pdf";
+        //fname = @"/Users/jri/Google\ Drive/Papers2/Articles/Y/Yoon/Yoon\ 2006\ -\ Using\ the\ brain\ P300\ response\ to\ identify\ novel\ phenotypes\ reflecting\ genetic\ vulnerability\ for\ adolescent\ substance\ misuse.\ -\ Addict\ Behav.pdf";
         //fname = @"/Users/jri/Documents/Papers2/Articles/Conway/Conway 2009 - The Importance of Sound for Cognitive Sequencing Abilities The Auditory Scaffolding Hypothesis - Curr Dir Psych Sci.pdf";
 
         //fprintf(stderr, "Usage: %s fname.pdf\n\tOutput HTML formatted listing of all highlights, unnderline and textbox annotations in a pdf file.", argv[0]);
@@ -58,8 +58,8 @@ int main (int argc, const char * argv[])
     [dateFormatter setDateStyle:NSDateFormatterShortStyle];
     //NSString *dft = [NSDateFormatter dateFormatFromTemplate:@"MM/dd/yyyy h:mm:ss a" options:0 locale:nil];
     NSString *date = [dateFormatter stringFromDate:[NSDate date]];
-    NSString *header = [NSString stringWithFormat:@"%@\n\n%lu pages.\n\n%@\n\n", fname, [pdfDoc pageCount], date];
-    //[header writeToFile:@"/dev/stdout" atomically:NO];
+    NSString *header = [NSString stringWithFormat:@"<b>Annotations extracted %@</b><br><br>\n\n",  date];
+    [header writeToFile:@"/dev/stdout" atomically:NO];
     
     //process each page in turn--this writes its result to stdout
     for (int iPage=0; iPage<nPage; iPage++) {
@@ -114,13 +114,12 @@ NSString *styledTextForAnnotations(NSArray *annotations) {
     PDFSelection *sel;
     PDFPage *annotationPage;
     //Fill these in and then when we encounter an underline, walk the array to see if it's contained in any previously encountered annotation 
-    NSMutableArray *annotationsHilightedText = [[NSMutableArray alloc] initWithCapacity:10];
-    NSMutableArray *annotationsContents = [[NSMutableArray alloc] initWithCapacity:10];
-    NSMutableArray *annotationsBounds = [[NSMutableArray alloc] initWithCapacity:10];
-    NSMutableArray *annotationsClass = [[NSMutableArray alloc] initWithCapacity:10];
+    NSMutableArray *outputAnnotations = [[NSMutableArray alloc] initWithCapacity:10];;
     
     Boolean isContained = FALSE;
     int annotationsIdx = 0;
+    double sortvar = 0;
+    NSPoint sortPoint;
     
     //loop through
     
@@ -161,6 +160,10 @@ NSString *styledTextForAnnotations(NSArray *annotations) {
             end.x += bounds.origin.x;
             end.y += bounds.origin.y;
             
+            // upper left corner used for sorting
+            sortPoint.x = start.x;
+            sortPoint.y = start.y;
+            
             // annotation text (hilighted or underlined) put in quotes
             sel = [annotationPage selectionFromPoint:start toPoint:end];
             annotationText = deHyphenate([sel string]);
@@ -173,11 +176,16 @@ NSString *styledTextForAnnotations(NSArray *annotations) {
             if ([annotationType isEqualToString: @"Underline"]) {
                 
                 //check if it falls within another annotation
-                for (int i=0; i<[annotationsClass count]; i++) {
-                    NSRect containerBounds = [annotationsBounds[i] rectValue];
+                for (int i=0; i<[outputAnnotations count]; i++) {
+                    NSRect containerBounds = [outputAnnotations[i][@"bounds"] rectValue];
                     if ( NSContainsRect(containerBounds, bounds) ) {
                         //find string within containing string and embolden it
-                        annotationsHilightedText[i] = [annotationsHilightedText[i] stringByReplacingOccurrencesOfString:annotationText withString:[NSString stringWithFormat:@"<b>%@</b>",annotationText]];
+                        outputAnnotations[i][@"hilightedText"] = [outputAnnotations[i][@"hilightedText"] stringByReplacingOccurrencesOfString:annotationText withString:[NSString stringWithFormat:@"<b>%@</b>",annotationText]];
+//                        NSString *newHilightedText = [outputAnnotations[i][@"hilightedText"] stringByReplacingOccurrencesOfString:annotationText withString:[NSString stringWithFormat:@"<b>%@</b>",annotationText]];
+//                        //make a new dictionary with this new text
+//                        NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithDictionary:outputAnnotations[i]];
+//                        newDict[@"hilightedText"] = newHilightedText;
+//                        outputAnnotations[i] = [NSDictionary dictionaryWithDictionary:newDict]; //need to convert back to unmutable?
                         isContained = TRUE;
                         break;
                     }
@@ -190,6 +198,9 @@ NSString *styledTextForAnnotations(NSArray *annotations) {
                 
             }
         } else if ( [thisAnnotation isKindOfClass:[PDFAnnotationFreeText class]] ) {
+            //upper left
+            sortPoint.x = bounds.origin.x;
+            sortPoint.y = bounds.origin.y;
             annotationText = @"";
         } else {
             continue; //many other annotation types, which we ignore
@@ -197,23 +208,33 @@ NSString *styledTextForAnnotations(NSArray *annotations) {
         
         //valid text fragment (not an emphasis embedded within another), save and continue
         if (!isContained) {
-            annotationsHilightedText[annotationsIdx] = annotationText;
-            annotationsBounds[annotationsIdx] = [NSValue valueWithRect:bounds];
-            annotationsContents[annotationsIdx] = annotationContents;
-            annotationsClass[annotationsIdx] = [thisAnnotation class];
             
+            //create a sorting variable
+            // annotation bound top left corner in page-normalized coordinates
+            float normY = 1.0 - (bounds.origin.y + bounds.size.height - [annotationPage boundsForBox:kPDFDisplayBoxMediaBox].origin.y)/[annotationPage boundsForBox:kPDFDisplayBoxMediaBox].size.height;
+            float normX = (bounds.origin.x - [annotationPage boundsForBox:kPDFDisplayBoxMediaBox].origin.x)/[annotationPage boundsForBox:kPDFDisplayBoxMediaBox].size.width;
+            //we'll sort ascending by y, place anything in right half of page below things beginning in left half
+            //  this assumes a 2-column layout, which isn't always true, but will work except for e.g. single-channel annotations that are entirely
+            //  in the right half of the page--will be the case for only short, less than one-line annotations
+            //  add a small fraction of normX to tiebreak any annotations on same line so that those starting to the left come first
+            sortvar = normY + normX/1000 + (normX>0.5 ? 1000 : 0);
+            
+            outputAnnotations[annotationsIdx] = [NSMutableDictionary dictionaryWithObjectsAndKeys: annotationText, @"hilightedText", \
+                                                 annotationContents, @"contents", [thisAnnotation class], @"class", \
+                                                 [NSValue valueWithRect:bounds], @"bounds", [NSNumber numberWithDouble: sortvar], @"sortvar", nil];
             annotationsIdx++;
         }        
         
     } //loop over pdf's annotations
     
-    //now create a sorting variable. We'll assume much text is in two columns and want therefore to sort by y first on left half of the page, and then right half. So, take the min x of bounds + largeNumber*(isOnRightHalf?1:0) to get a monotonic sort
-        //isOnRightHalf I guess is defined if min x of bounds > pagewidth/2?
+    //sort annotations
+    NSSortDescriptor *ascendingLocation = [[NSSortDescriptor alloc] initWithKey:@"sortvar"  ascending:YES];
+    outputAnnotations = [NSMutableArray arrayWithArray:[outputAnnotations sortedArrayUsingDescriptors:@[ascendingLocation]]];
     
-    //now loop over collected annotations and format them and output a string containing annotations for this page
+    //now loop over collected, sorted annotations and format them and output a string containing annotations for this page
     outputText = [ NSMutableString stringWithCapacity:100 ];
     
-    for (int i=0; i<[annotationsClass count]; i++) {
+    for (int i=0; i<[outputAnnotations count]; i++) {
 
             // assemble annotation text & note (contents). Could get fancy: if note has two paras,
             //  make first a heading (only if begin with #?) and second a post-text comment:
@@ -222,16 +243,16 @@ NSString *styledTextForAnnotations(NSArray *annotations) {
             //      remainder of comment
             //
         
-        if ([annotationsClass[i] isEqual:[PDFAnnotationMarkup class]])  {
+        if ([outputAnnotations[i][@"class"] isEqual:[PDFAnnotationMarkup class]])  {
 
-            annotationsHilightedText[i] = [NSString stringWithFormat:@"&quot;%@&quot;", annotationsHilightedText[i]]; // in quotes
+            outputAnnotations[i][@"hilightedText"] = [NSString stringWithFormat:@"&quot;%@&quot;", outputAnnotations[i][@"hilightedText"]]; // in quotes
             
-            NSArray *contentParts = [escapeForHTML(annotationsContents[i]) componentsSeparatedByString:@"<br><br>"];
+            NSArray *contentParts = [escapeForHTML(outputAnnotations[i][@"contents"]) componentsSeparatedByString:@"<br><br>"];
 
             switch ([contentParts count]) {
                 case 0: //no note
                 {
-                    [outputText appendFormat:@"%@<br><br>", annotationsHilightedText[i] ];
+                    [outputText appendFormat:@"%@<br><br>", outputAnnotations[i][@"hilightedText"] ];
                     break;
                 }
                     
@@ -240,9 +261,9 @@ NSString *styledTextForAnnotations(NSArray *annotations) {
                     NSString *note = [contentParts objectAtIndex:0];
                     if ([note length] > 0) {
                         note = escapeForHTML(note);
-                        [outputText appendFormat:@"%@<br>\n&nbsp;&nbsp;&nbsp;&nbsp;<i>%@</i><br><br>\n\n", annotationsHilightedText[i], note];
+                        [outputText appendFormat:@"%@<br>\n&nbsp;&nbsp;&nbsp;&nbsp;<i>%@</i><br><br>\n\n", outputAnnotations[i][@"hilightedText"], note];
                     } else {
-                        [outputText appendFormat:@"%@<br><br>\n\n", annotationsHilightedText[i]];                        
+                        [outputText appendFormat:@"%@<br><br>\n\n", outputAnnotations[i][@"hilightedText"]];                        
                     }
                     break;
                 }
@@ -253,24 +274,23 @@ NSString *styledTextForAnnotations(NSArray *annotations) {
                     NSString *hdr = [parts objectAtIndex:0];
                     
                     [parts removeObjectAtIndex:0];
-                    [outputText appendFormat:@"<h3>%@</h3>\n%@<br>\n&nbsp;&nbsp;&nbsp;&nbsp;<i>%@</i><br><br>\n\n", hdr, annotationsHilightedText[i], [parts componentsJoinedByString:@"<br>" ] ];
+                    [outputText appendFormat:@"<h3>%@</h3>\n%@<br>\n&nbsp;&nbsp;&nbsp;&nbsp;<i>%@</i><br><br>\n\n", hdr, outputAnnotations[i][@"hilightedText"], [parts componentsJoinedByString:@"<br>" ] ];
                     break;
                 }
             }
 
 
         // free text, direct
-        } else if ( [annotationsClass[i] isEqual:[PDFAnnotationFreeText class]] ) {
-            if ([annotationsContents[i] length] > 0) {
-                [outputText appendFormat:@"\n[<i>%@</i>]<br><br>\n\n", annotationsContents[i]];
+        } else if ( [outputAnnotations[i][@"class"] isEqual:[PDFAnnotationFreeText class]] ) {
+            if ([outputAnnotations[i][@"contents"] length] > 0) {
+                [outputText appendFormat:@"\n[<i>%@</i>]<br><br>\n\n", outputAnnotations[i][@"contents"] ];
             }
         }
     } // loop over output annotations
     
     // sanitize text (force to UTF-8) incase we want to pipe to pandoc to render
-    //  rich text
-    outputText = [[NSString alloc] initWithData: [outputText dataUsingEncoding: NSASCIIStringEncoding allowLossyConversion:YES] encoding:NSASCIIStringEncoding];
-    return outputText;
+    //  rich text (there must be a better way!)
+    return [[NSString alloc] initWithData: [outputText dataUsingEncoding: NSASCIIStringEncoding allowLossyConversion:YES] encoding:NSASCIIStringEncoding];
     
 }
 
