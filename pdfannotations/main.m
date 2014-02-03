@@ -211,8 +211,8 @@ NSString *styledTextForAnnotations(NSArray *annotations) {
             
             //create a sorting variable
             // annotation bound top left corner in page-normalized coordinates
-            float normY = 1.0 - (bounds.origin.y + bounds.size.height - [annotationPage boundsForBox:kPDFDisplayBoxMediaBox].origin.y)/[annotationPage boundsForBox:kPDFDisplayBoxMediaBox].size.height;
-            float normX = (bounds.origin.x - [annotationPage boundsForBox:kPDFDisplayBoxMediaBox].origin.x)/[annotationPage boundsForBox:kPDFDisplayBoxMediaBox].size.width;
+            float normY = 1.0 - (sortPoint.y - [annotationPage boundsForBox:kPDFDisplayBoxMediaBox].origin.y)/[annotationPage boundsForBox:kPDFDisplayBoxMediaBox].size.height;
+            float normX = (sortPoint.x - [annotationPage boundsForBox:kPDFDisplayBoxMediaBox].origin.x)/[annotationPage boundsForBox:kPDFDisplayBoxMediaBox].size.width;
             //we'll sort ascending by y, place anything in right half of page below things beginning in left half
             //  this assumes a 2-column layout, which isn't always true, but will work except for e.g. single-channel annotations that are entirely
             //  in the right half of the page--will be the case for only short, less than one-line annotations
