@@ -50,6 +50,10 @@ int main (int argc, const char * argv[])
         exit(2);
     }
     
+    // write the file name at the top of the extract
+    NSString *fnHeader = [NSString stringWithFormat:@"<b>%@</b><br><br>\n\n",  fname];
+    [fnHeader writeToFile:@"/dev/stdout" atomically:NO];
+    
     // write a prefix with page count and date (get last mod date of file?)
     NSUInteger nPage = [pdfDoc pageCount];
     
@@ -80,7 +84,7 @@ void processPage(PDFPage *aPage) {
     //NSLog(@"%lu annotations",[annotations count]);
     
     if ([annotations count] > 0) {
-        pageText = [NSString stringWithFormat:@"<h2>Page %@</h2>\n\n", [aPage label]];
+        pageText = [NSString stringWithFormat:@"<h4>Page %@</h4>\n\n", [aPage label]];
         outputText = styledTextForAnnotations(annotations);
         if ([outputText length] > 0) {
             [pageText   writeToFile:@"/dev/stdout" atomically:NO];
@@ -260,7 +264,7 @@ NSString *styledTextForAnnotations(NSArray *annotations) {
                 {
                     NSString *note = [contentParts objectAtIndex:0];
                     if ([note length] > 0) {
-                        note = escapeForHTML(note);
+                        //note = escapeForHTML(note);
                         [outputText appendFormat:@"%@<br>\n&nbsp;&nbsp;&nbsp;&nbsp;<i>%@</i><br><br>\n\n", outputAnnotations[i][@"hilightedText"], note];
                     } else {
                         [outputText appendFormat:@"%@<br><br>\n\n", outputAnnotations[i][@"hilightedText"]];                        
