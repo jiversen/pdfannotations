@@ -3,6 +3,9 @@ pdfannotations
 
 _New Solution to extracting highlights and annotations from pdfs (annotated using non-papers apps)_
 
+*The key contribution here is that it also extracts highlighted text, and nicely styles the results, making clear
+the distinction between quotes and your own thoughts. Excellent for extracting notes taken on papers to create a concise summary.*
+
 I've made a set of programs for my own use that extract my annotations--highlights, notes, underlines--and put a formatted rich text into the clipboard that you can paste into any app.
 
 If you're interested in testing it out, please check it out: http://johniversen.org/data/PDFAnnotationsToClipboard.mpkg.zip
@@ -16,12 +19,15 @@ John
 Extract annotations, including highlighted text, from pdf
 
 */usr/local/bin/pdfannotations*
+
 	A command line program that takes the name of a pdf file as an argument, and outputs an HTML formatted stream of annotations and comments, indexed by page. This is the business end of the apps above.
 
   Complete installation package (including OS X services to place rich-text annotation into clipboard) can be downloaded at: http://johniversen.org/data/PDFAnnotationsToClipboard.mpkg.zip
   
 *PDF Annotations to Clipboard.app*
+
 *PDF Annotations to Clipboard.workflow*
+
 	This app and service both take a pdf file and harvest notes, highlighst and other annotations from it, placing a richly formatted list in the clipboard. Usage: Drop a pdf onto the app, or select it as the target for "Open With…" in a contextual menu.
 
   
